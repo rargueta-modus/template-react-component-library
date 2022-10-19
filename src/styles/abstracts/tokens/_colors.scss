@@ -1,0 +1,38 @@
+$default: "default";
+
+$palette-map: (
+  // primary
+  "neutral":
+    (
+      $default: white,
+    )
+);
+
+@mixin generate-color-variables {
+  @each $color, $value in $palette-map {
+    @each $shade, $hex in $value {
+      @if $shade == $default {
+        --color-#{$color}: #{$hex};
+      } @else {
+        --color-#{$color}-#{$shade}: #{$hex};
+      }
+    }
+  }
+}
+
+/// Function to get color from palette
+/// @param {String} $name - color name
+/// @param {String} $shade [default] - shade name
+/// @require $palette-map
+@function get-color($name, $shade: $default) {
+  @if map-has-key($palette-map, $name) {
+    @if $shade == $default {
+      @return var(--color-#{$name});
+    } @else {
+      @return var(--color-#{$name}-#{$shade});
+    }
+  } @else {
+    @warn 'Unfortunately, no value could be retrieved from `#{$name}`. '
+        +'Available colors are: #{map-keys($palette-map)}.';
+  }
+}

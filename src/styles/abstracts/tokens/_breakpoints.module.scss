@@ -1,0 +1,65 @@
+/*
+  Breakpoints - simple mixin for including breakpoints
+  usage: @include breakpoint(large) { color: red; }
+*/
+$breakpoints: (
+    tiny: 375px,
+    small: 500px,
+    medium: 768px,
+    large: 1024px,
+    xlarge: 1440px,
+    xxlarge: 1600px,
+);
+
+$breakpoints-map: (
+    small: (
+        min-width: map-get($breakpoints, 'small'),
+    ),
+    medium: (
+        min-width: map-get($breakpoints, 'medium'),
+    ),
+    large: (
+        min-width: map-get($breakpoints, 'large'),
+    ),
+    xlarge: (
+        min-width: map-get($breakpoints, 'xlarge'),
+    ),
+    xxlarge: (
+        min-width: map-get($breakpoints, 'xxlarge'),
+    ),
+    small-max: (
+        max-width: map-get($breakpoints, 'medium') - 1px,
+    ),
+    medium-max: (
+        max-width: map-get($breakpoints, 'large') - 1px,
+    ),
+    large-max: (
+        max-width: map-get($breakpoints, 'xlarge') - 1px,
+    ),
+) !default;
+
+/// Mixin to manage responsive breakpoints
+/// @param {String} $breakpoint - Breakpoint name
+/// @require $breakpoints-map
+@mixin breakpoint($breakpoint) {
+    // If the key exists in the map
+    @if map-has-key($breakpoints-map, $breakpoint) {
+        // Prints a media query based on the value
+        @media #{inspect(map-get($breakpoints-map, $breakpoint))} {
+            @content;
+        }
+    }
+
+    // If the key doesn't exist in the map
+    @else {
+        @warn 'Unfortunately, no value could be retrieved from `#{$breakpoint}`. '
+        + 'Available breakpoints are: #{map-keys($breakpoints-map)}.';
+    }
+}
+
+// Export breakpoint variables for use in JavaScript
+:export {
+    @each $key, $value in $breakpoints {
+        #{$key}: $value;
+    }
+}

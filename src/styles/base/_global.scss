@@ -1,0 +1,17 @@
+@use '../../styles/abstracts' as *;
+
+// Accessibility best practice to hide labels and helper text
+// <span className='visually-hidden'>about this subject matter.</span>
+.visually-hidden {
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+// Default font family applied to website
+.fonts-loaded body {
+    font-family: Arial, Helvetica, sans-serif
+}

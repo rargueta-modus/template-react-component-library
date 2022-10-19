@@ -1,0 +1,22 @@
+@use './../mixins/px-to-rems' as *;
+
+$space-scale: (
+    01: rem(8),
+    02: rem(16),
+    03: rem(24),
+    04: rem(32),
+    05: rem(40),
+    06: rem(48),
+    08: rem(56),
+    09: rem(64),
+    10: rem(72),
+);
+
+@function get-space($size) {
+    @if map-has-key($space-scale, $size) {
+        @return #{map-get($space-scale, $size)};
+    } @else {
+        @warn 'Unfortunately, no value could be retrieved from `#{$size}`. '
+        +'Available colors are: #{map-keys($space-scale)}.';
+    }
+}
