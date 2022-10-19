@@ -1,0 +1,72 @@
+@use '../../styles/abstracts/' as *;
+
+.wrapper {
+  --size: 24px;
+  --border-width: calc(var(--size) * 0.05);
+  --delay: 2000ms;
+
+  height: var(--size);
+  width: var(--size);
+  position: relative;
+}
+.spinner {
+  height: 100%;
+  width: 100%;
+  border: var(--border-width) solid transparent;
+  border-top-color: var(--first-ring-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: spin calc(var(--delay)) linear infinite;
+
+  &::after,
+  &::before {
+    content: "";
+    position: absolute;
+    border: var(--border-width) solid transparent;
+    border-radius: 50%;
+  }
+
+  &::before {
+    height: 80%;
+    width: 80%;
+    animation: spin calc(var(--delay) + 1000ms) linear infinite;
+    border-top-color: var(--second-ring-color);
+  }
+  &::after {
+    height: 55%;
+    width: 55%;
+    animation: spin calc(var(--delay) + 2000ms) linear infinite;
+    border-top-color: var(--third-ring-color);
+  }
+}
+
+.light {
+  --first-ring-color: teal;
+  --second-ring-color: gray;
+  --third-ring-color: red;
+}
+
+.dark {
+  --first-ring-color: #778DA9;
+  --second-ring-color: #E0E1DD;
+  --third-ring-color: #FCA311;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-ms-keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

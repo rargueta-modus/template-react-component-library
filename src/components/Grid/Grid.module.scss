@@ -1,0 +1,87 @@
+@use '../../styles/abstracts/' as *;
+
+$columns-small: 6;
+$columns-large: 12;
+$grid-gap-small: 16px;
+$grid-gap-large: 24px;
+
+.grid {
+    display: grid;
+
+    @include breakpoint(medium-max) {
+        column-gap: $grid-gap-small;
+        grid-template-columns: repeat(var(--colSm), minmax(1rem, 1fr));
+        grid-template-rows: repeat(var(--rowSm));
+    }
+
+    @include breakpoint(large) {
+        column-gap: $grid-gap-large;
+        grid-template-columns: repeat(var(--colLg), minmax(1rem, 1fr));
+        grid-template-rows: repeat(var(--rowLg), minmax(1rem, 1fr));
+    }
+
+    &-col {
+        @include breakpoint(medium-max) {
+            grid-column: var(--colStartSm) / span var(--colSpanSm);
+            grid-row: var(--rowStartSm) / span var(--rowSpanSm);
+        }
+
+        @include breakpoint(large) {
+            grid-column: var(--colStartLg) / span var(--colSpanLg);
+            grid-row: var(--rowStartLg) / span var(--rowSpanLg);
+        }
+    }
+}
+
+/// Helper class to display an overlay representation of the grid
+.grid-debug {
+    $background-color: hsla(204, 80%, 72%, 0.25);
+    position: relative;
+
+    &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin-right: auto;
+        margin-left: auto;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+        pointer-events: none;
+
+        @include breakpoint(medium-max) {
+            /* Helper variables */
+            $column-width: calc((100% / var(--colSm)) - $grid-gap-small);
+            $background-width: calc(100% + $grid-gap-small);
+            $background-columns: repeating-linear-gradient(
+                to right,
+                $background-color,
+                $background-color $column-width,
+                transparent $column-width,
+                transparent calc(100% / var(--colSm))
+            );
+
+            background-image: $background-columns;
+            background-size: $background-width 100%;
+        }
+
+        @include breakpoint(large) {
+            /* Helper variables */
+            $column-width: calc((100% / var(--colLg)) - $grid-gap-large);
+            $background-width: calc(100% + $grid-gap-large);
+            $background-columns: repeating-linear-gradient(
+                to right,
+                $background-color,
+                $background-color $column-width,
+                transparent $column-width,
+                transparent calc(100% / var(--colLg))
+            );
+
+            background-image: $background-columns;
+            background-size: $background-width 100%;
+        }
+    }
+}
